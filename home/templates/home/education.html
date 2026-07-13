@@ -1,0 +1,282 @@
+{% extends 'home/base.html' %}
+{% block extra_css %}
+<style>
+
+  .edu-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .edu-header h1 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 0.5rem;
+  }
+
+  .edu-header h1 span { color: #5865F2; }
+
+  .edu-header p {
+    font-size: 15px;
+    color: rgba(255,255,255,0.5);
+  }
+
+  /* TIMELINE */
+  .timeline {
+    position: relative;
+    max-width: 750px;
+    margin: 0 auto;
+    padding-left: 2rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, #5865F2, rgba(88,101,242,0.1));
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .timeline-item:last-child { margin-bottom: 0; }
+
+  /* DOT */
+  .timeline-dot {
+    position: absolute;
+    left: -2.45rem;
+    top: 1.25rem;
+    width: 14px; height: 14px;
+    background: #5865F2;
+    border-radius: 50%;
+    border: 3px solid #0e0e2c;
+    box-shadow: 0 0 12px rgba(88,101,242,0.6);
+    transition: all 0.3s;
+  }
+
+  .timeline-item:hover .timeline-dot {
+    transform: scale(1.4);
+    box-shadow: 0 0 20px rgba(88,101,242,0.8);
+  }
+
+  /* CARD */
+  .timeline-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 1.75rem;
+    transition: all 0.3s;
+  }
+
+  .timeline-item:hover .timeline-card {
+    border-color: #5865F2;
+    background: rgba(88,101,242,0.08);
+    transform: translateX(6px);
+    box-shadow: 0 8px 32px rgba(88,101,242,0.15);
+  }
+
+  .timeline-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(88,101,242,0.2);
+    border: 1px solid rgba(88,101,242,0.3);
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-size: 11px;
+    color: #949CF7;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.75rem;
+  }
+
+  .timeline-degree {
+    font-size: 19px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 4px;
+  }
+
+  .timeline-institution {
+    font-size: 14px;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 0.75rem;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .timeline-duration {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.06);
+    border-radius: 6px;
+    padding: 3px 10px;
+    margin-bottom: 1rem;
+  }
+
+  .timeline-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.7;
+  }
+
+  /* STATS ROW */
+  .edu-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    max-width: 750px;
+    margin: 3rem auto 0;
+  }
+
+  .edu-stat-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 1.25rem;
+    text-align: center;
+    animation: fadeUp 0.6s ease both;
+    transition: all 0.2s;
+  }
+
+  .edu-stat-card:hover {
+    border-color: #5865F2;
+    background: rgba(88,101,242,0.08);
+    transform: translateY(-4px);
+  }
+
+  .edu-stat-icon { font-size: 28px; margin-bottom: 8px; }
+
+  .edu-stat-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 4px;
+  }
+
+  .edu-stat-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* SUBJECTS */
+  .subjects-section {
+    max-width: 750px;
+    margin: 2.5rem auto 0;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 1.75rem;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .subjects-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 1rem;
+  }
+
+  .subjects-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .subject-tag {
+    background: rgba(88,101,242,0.15);
+    border: 1px solid rgba(88,101,242,0.25);
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 13px;
+    color: #949CF7;
+    transition: all 0.2s;
+  }
+
+  .subject-tag:hover {
+    background: rgba(88,101,242,0.3);
+    transform: translateY(-2px);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- HEADER -->
+<div class="edu-header">
+  <h1>My <span>Education</span> 🎓</h1>
+  <p>Academic background and qualifications</p>
+</div>
+
+<!-- TIMELINE -->
+<div class="timeline">
+  {% for edu in education %}
+  <div class="timeline-item">
+    <div class="timeline-dot"></div>
+    <div class="timeline-card">
+      <div class="timeline-badge">🎓 Degree</div>
+      <div class="timeline-degree">{{ edu.degree }}</div>
+      <div class="timeline-institution">🏛 {{ edu.institution }}</div>
+      <div class="timeline-duration">📅 {{ edu.duration }}</div>
+      {% if edu.description %}
+        <div class="timeline-desc">{{ edu.description }}</div>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- STATS -->
+<div class="edu-stats">
+  <div class="edu-stat-card">
+    <div class="edu-stat-icon">📚</div>
+    <div class="edu-stat-value">4</div>
+    <div class="edu-stat-label">Years</div>
+  </div>
+  <div class="edu-stat-card">
+    <div class="edu-stat-icon">💻</div>
+    <div class="edu-stat-value">IT</div>
+    <div class="edu-stat-label">Specialization</div>
+  </div>
+  <div class="edu-stat-card">
+    <div class="edu-stat-icon">🏆</div>
+    <div class="edu-stat-value">B.Tech</div>
+    <div class="edu-stat-label">Degree</div>
+  </div>
+  <div class="edu-stat-card">
+    <div class="edu-stat-icon">📍</div>
+    <div class="edu-stat-value">Chennai</div>
+    <div class="edu-stat-label">Location</div>
+  </div>
+</div>
+
+<!-- SUBJECTS -->
+<div class="subjects-section">
+  <div class="subjects-title">Key Subjects Studied</div>
+  <div class="subjects-grid">
+    <span class="subject-tag">Data Structures</span>
+    <span class="subject-tag">Algorithms</span>
+    <span class="subject-tag">Database Management</span>
+    <span class="subject-tag">Web Technologies</span>
+    <span class="subject-tag">Operating Systems</span>
+    <span class="subject-tag">Computer Networks</span>
+    <span class="subject-tag">Software Engineering</span>
+    <span class="subject-tag">Object Oriented Programming</span>
+    <span class="subject-tag">Python Programming</span>
+    <span class="subject-tag">Cloud Computing</span>
+  </div>
+</div>
+
+{% endblock %}

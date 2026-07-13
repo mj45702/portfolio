@@ -1,0 +1,363 @@
+{% extends 'home/base.html' %}
+{% block extra_css %}
+<style>
+
+  /* HEADER */
+  .skills-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .skills-header h1 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 0.5rem;
+  }
+
+  .skills-header h1 span { color: #5865F2; }
+
+  .skills-header p {
+    font-size: 15px;
+    color: rgba(255,255,255,0.5);
+  }
+
+  /* CATEGORY TABS */
+  .category-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  .tab-btn {
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.6);
+    transition: all 0.2s;
+  }
+
+  .tab-btn:hover, .tab-btn.active {
+    background: #5865F2;
+    border-color: #5865F2;
+    color: #FFFFFF;
+    box-shadow: 0 4px 16px rgba(88,101,242,0.3);
+  }
+
+  /* SKILLS GRID */
+  .skills-section {
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .skills-section.hidden { display: none; }
+
+  .skills-section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.25rem;
+  }
+
+  .skills-section-icon {
+    width: 40px; height: 40px;
+    background: rgba(88,101,242,0.2);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+
+  .skills-section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .skills-section-count {
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 2px 8px;
+  }
+
+  .skills-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+  }
+
+  .skill-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 1.25rem 1rem;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: default;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .skill-card:hover {
+    border-color: #5865F2;
+    background: rgba(88,101,242,0.1);
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 12px 32px rgba(88,101,242,0.2);
+  }
+
+  .skill-card-icon {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+
+  .skill-card-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #FFFFFF;
+    margin-bottom: 6px;
+  }
+
+  .skill-card-level {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #5865F2;
+    background: rgba(88,101,242,0.15);
+    border-radius: 4px;
+    padding: 2px 8px;
+    display: inline-block;
+  }
+
+  /* DIVIDER */
+  .skills-divider {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    margin: 2rem 0;
+  }
+
+  /* STATS */
+  .skills-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-top: 2rem;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .skill-stat {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 1.25rem;
+    text-align: center;
+    transition: all 0.2s;
+  }
+
+  .skill-stat:hover {
+    border-color: #5865F2;
+    background: rgba(88,101,242,0.08);
+    transform: translateY(-4px);
+  }
+
+  .skill-stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #5865F2;
+    margin-bottom: 4px;
+  }
+
+  .skill-stat-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- HEADER -->
+<div class="skills-header">
+  <h1>My <span>Skills</span> ⚡</h1>
+  <p>Technologies and tools I work with</p>
+</div>
+
+<!-- TABS -->
+<div class="category-tabs">
+  <button class="tab-btn active" onclick="filterSkills('all')">All</button>
+  <button class="tab-btn" onclick="filterSkills('backend')">🔧 Backend</button>
+  <button class="tab-btn" onclick="filterSkills('frontend')">🎨 Frontend</button>
+  <button class="tab-btn" onclick="filterSkills('database')">🗄 Database</button>
+  <button class="tab-btn" onclick="filterSkills('tools')">🛠 Tools</button>
+</div>
+
+<!-- BACKEND -->
+<div class="skills-section" data-category="backend">
+  <div class="skills-section-header">
+    <div class="skills-section-icon">🔧</div>
+    <div class="skills-section-title">Backend</div>
+    <div class="skills-section-count">
+      {{ skill_groups.backend|length }} skills
+    </div>
+  </div>
+  <div class="skills-cards-grid">
+    {% for skill in skill_groups.backend %}
+    <div class="skill-card">
+      <div class="skill-card-icon">
+        {% if skill.name == 'Python' %}🐍
+        {% elif skill.name == 'Django' %}🎯
+        {% elif 'REST' in skill.name %}🔗
+        {% else %}⚙️{% endif %}
+      </div>
+      <div class="skill-card-name">{{ skill.name }}</div>
+      <div class="skill-card-level">Intermediate</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<hr class="skills-divider">
+
+<!-- FRONTEND -->
+<div class="skills-section" data-category="frontend">
+  <div class="skills-section-header">
+    <div class="skills-section-icon">🎨</div>
+    <div class="skills-section-title">Frontend</div>
+    <div class="skills-section-count">
+      {{ skill_groups.frontend|length }} skills
+    </div>
+  </div>
+  <div class="skills-cards-grid">
+    {% for skill in skill_groups.frontend %}
+    <div class="skill-card">
+      <div class="skill-card-icon">
+        {% if skill.name == 'JavaScript' %}✨
+        {% elif 'HTML' in skill.name %}🌐
+        {% elif skill.name == 'React' %}⚛️
+        {% elif skill.name == 'Bootstrap' %}🅱️
+        {% else %}🎨{% endif %}
+      </div>
+      <div class="skill-card-name">{{ skill.name }}</div>
+      <div class="skill-card-level">Intermediate</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<hr class="skills-divider">
+
+<!-- DATABASE -->
+<div class="skills-section" data-category="database">
+  <div class="skills-section-header">
+    <div class="skills-section-icon">🗄</div>
+    <div class="skills-section-title">Database</div>
+    <div class="skills-section-count">
+      {{ skill_groups.database|length }} skills
+    </div>
+  </div>
+  <div class="skills-cards-grid">
+    {% for skill in skill_groups.database %}
+    <div class="skill-card">
+      <div class="skill-card-icon">
+        {% if skill.name == 'MySQL' %}🐬
+        {% elif skill.name == 'SQLite' %}💾
+        {% elif 'Mongo' in skill.name %}🍃
+        {% else %}🗄{% endif %}
+      </div>
+      <div class="skill-card-name">{{ skill.name }}</div>
+      <div class="skill-card-level">Intermediate</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<hr class="skills-divider">
+
+<!-- TOOLS -->
+<div class="skills-section" data-category="tools">
+  <div class="skills-section-header">
+    <div class="skills-section-icon">🛠</div>
+    <div class="skills-section-title">Tools & DevOps</div>
+    <div class="skills-section-count">
+      {{ skill_groups.tools|length }} skills
+    </div>
+  </div>
+  <div class="skills-cards-grid">
+    {% for skill in skill_groups.tools %}
+    <div class="skill-card">
+      <div class="skill-card-icon">
+        {% if 'Git' in skill.name %}🐙
+        {% elif 'VS' in skill.name %}💙
+        {% elif 'Docker' in skill.name %}🐳
+        {% elif 'Linux' in skill.name %}🐧
+        {% else %}🛠{% endif %}
+      </div>
+      <div class="skill-card-name">{{ skill.name }}</div>
+      <div class="skill-card-level">Intermediate</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="skills-stats">
+  <div class="skill-stat">
+    <div class="skill-stat-value">
+      {{ skill_groups.backend|length|add:skill_groups.frontend|length|add:skill_groups.database|length|add:skill_groups.tools|length }}+
+    </div>
+    <div class="skill-stat-label">Total Skills</div>
+  </div>
+  <div class="skill-stat">
+    <div class="skill-stat-value">3+</div>
+    <div class="skill-stat-label">Projects Built</div>
+  </div>
+  <div class="skill-stat">
+    <div class="skill-stat-value">2+</div>
+    <div class="skill-stat-label">Years Learning</div>
+  </div>
+  <div class="skill-stat">
+    <div class="skill-stat-value">4</div>
+    <div class="skill-stat-label">Categories</div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function filterSkills(category) {
+  // Update active tab
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+
+  const sections = document.querySelectorAll('.skills-section');
+  const dividers = document.querySelectorAll('.skills-divider');
+
+  if (category === 'all') {
+    sections.forEach(s => s.classList.remove('hidden'));
+    dividers.forEach(d => d.style.display = 'block');
+  } else {
+    sections.forEach(s => {
+      s.classList.toggle('hidden', s.dataset.category !== category);
+    });
+    dividers.forEach(d => d.style.display = 'none');
+  }
+}
+</script>
+{% endblock %}

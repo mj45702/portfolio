@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{{ profile.name }} | Portfolio</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #0e0e2c; color: #DBDEE1;
+      position: relative; overflow-x: hidden;
+    }
+    body::before {
+      content: ''; position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(88,101,242,0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(88,101,242,0.1) 0%, transparent 50%),
+        linear-gradient(135deg, #0a0a1f 0%, #0e0e2c 40%, #13134a 100%);
+      z-index: -1; pointer-events: none;
+    }
+    .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+    .star { position: absolute; background: #fff; border-radius: 50%; animation: twinkle linear infinite; opacity: 0; }
+    @keyframes twinkle { 0%, 100% { opacity: 0; transform: scale(0.5); } 50% { opacity: 0.6; transform: scale(1); } }
+    .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: #5865F2; width: 0%; z-index: 999; transition: width 0.1s; }
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,10,31,0.92); backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.1rem 2rem;
+    }
+    .logo { font-size: 20px; font-weight: 700; color: #FFFFFF; text-decoration: none; }
+    .logo span { color: #5865F2; }
+    .nav-links { display: flex; gap: 1.75rem; font-size: 14px; }
+    .nav-links a {
+      text-decoration: none; color: rgba(255,255,255,0.7);
+      transition: color 0.2s; padding: 6px 12px; border-radius: 6px;
+    }
+    .nav-links a:hover { color: #5865F2; }
+    .nav-links a.active { color: #5865F2; background: rgba(88,101,242,0.1); }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 3rem; position: relative; z-index: 1; }
+    .page-title {
+      font-size: 32px; font-weight: 700; color: #FFFFFF;
+      margin-bottom: 0.5rem;
+      animation: fadeDown 0.6s ease both;
+    }
+    .page-subtitle {
+      font-size: 15px; color: rgba(255,255,255,0.5);
+      margin-bottom: 2.5rem;
+      animation: fadeDown 0.6s 0.1s ease both;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 10px 20px; border-radius: 8px; font-size: 14px;
+      font-weight: 500; cursor: pointer; text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.1); color: #FFFFFF; transition: all 0.2s;
+    }
+    .btn:hover { transform: translateY(-2px); background: rgba(255,255,255,0.2); }
+    .btn.primary { background: #FFFFFF; color: #5865F2; border-color: transparent; font-weight: 700; }
+    .btn.primary:hover { background: #F0F0F0; transform: translateY(-2px); }
+    footer {
+      padding: 1.5rem 0; border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex; justify-content: center; align-items: center;
+      gap: 2rem; font-size: 13px; color: rgba(255,255,255,0.3);
+      position: relative; z-index: 1;
+      max-width: 1100px; margin: 0 auto; padding: 1.5rem;
+    }
+    @keyframes fadeDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+<div class="progress-bar" id="progressBar"></div>
+
+<nav>
+  <a href="/" class="logo">MK<span>.</span></a>
+  <div class="nav-links">
+    <a href="/" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">About</a>
+    <a href="/skills/" class="{% if request.resolver_match.url_name == 'skills' %}active{% endif %}">Skills</a>
+    <a href="/projects/" class="{% if request.resolver_match.url_name == 'projects' %}active{% endif %}">Projects</a>
+    <a href="/education/" class="{% if request.resolver_match.url_name == 'education' %}active{% endif %}">Education</a>
+    <a href="/contact/" class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">Contact</a>
+  </div>
+</nav>
+
+<div class="wrap">
+  {% block content %}{% endblock %}
+</div>
+
+<footer>
+  <div style="text-align:center; width:100%;">
+    
+    <!-- TOP ROW — SOCIAL LINKS -->
+    <div style="display:flex; justify-content:center; gap:1.5rem; margin-bottom:1rem;">
+      {% if profile.github %}
+        <a href="{{ profile.github }}" target="_blank" 
+           style="color:rgba(255,255,255,0.5); text-decoration:none; font-size:13px; transition:color 0.2s;"
+           onmouseover="this.style.color='#5865F2'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">
+          ⬡ GitHub
+        </a>
+      {% endif %}
+      {% if profile.linkedin %}
+        <a href="{{ profile.linkedin }}" target="_blank"
+           style="color:rgba(255,255,255,0.5); text-decoration:none; font-size:13px; transition:color 0.2s;"
+           onmouseover="this.style.color='#5865F2'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">
+          in LinkedIn
+        </a>
+      {% endif %}
+      <a href="mailto:{{ profile.email }}"
+         style="color:rgba(255,255,255,0.5); text-decoration:none; font-size:13px; transition:color 0.2s;"
+         onmouseover="this.style.color='#5865F2'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">
+        ✉ Email
+      </a>
+      <a href="/contact/"
+         style="color:rgba(255,255,255,0.5); text-decoration:none; font-size:13px; transition:color 0.2s;"
+         onmouseover="this.style.color='#5865F2'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">
+        📬 Contact
+      </a>
+    </div>
+
+    <!-- DIVIDER -->
+    <div style="border-top:1px solid rgba(255,255,255,0.06); margin-bottom:1rem;"></div>
+
+    <!-- BOTTOM ROW -->
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+      <span>© 2026 {{ profile.name }} — All rights reserved</span>
+      <span>Built with  Python & Django</span>
+      <span> Chennai, India</span>
+    </div>
+
+  </div>
+</footer>
+<script>
+const starsContainer = document.getElementById('stars');
+for (let i = 0; i < 80; i++) {
+  const star = document.createElement('div');
+  star.classList.add('star');
+  const size = Math.random() * 2.5 + 1;
+  star.style.cssText = `width:${size}px;height:${size}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-duration:${Math.random()*4+2}s;animation-delay:${Math.random()*4}s;`;
+  starsContainer.appendChild(star);
+}
+window.addEventListener('scroll', () => {
+  const bar = document.getElementById('progressBar');
+  const scrollTop = document.documentElement.scrollTop;
+  const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  bar.style.width = (scrollTop / scrollHeight * 100) + '%';
+});
+</script>
+{% block extra_js %}{% endblock %}
+
+</body>
+</html>

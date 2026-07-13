@@ -1,0 +1,481 @@
+{% extends 'home/base.html' %}
+{% block extra_css %}
+<style>
+
+  /* HERO ABOUT */
+  .about-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    margin-bottom: 3rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .about-left h1 {
+    font-size: 38px;
+    font-weight: 700;
+    color: #FFFFFF;
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+  }
+
+  .about-left h1 span { color: #5865F2; }
+
+  .about-role-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(88,101,242,0.15);
+    border: 1px solid rgba(88,101,242,0.3);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 13px;
+    color: #949CF7;
+    font-weight: 500;
+    margin-bottom: 1.25rem;
+  }
+
+  .about-bio {
+    font-size: 15px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.85;
+    margin-bottom: 1.75rem;
+  }
+
+  .about-btns {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  /* RIGHT — PROFILE CARD */
+  .profile-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 1.5rem 2rem 2rem;
+    text-align: center;
+    animation: fadeUp 0.6s 0.15s ease both;
+    transition: all 0.3s;
+  }
+
+  .profile-card:hover {
+    border-color: #5865F2;
+    box-shadow: 0 12px 40px rgba(88,101,242,0.15);
+  }
+
+.profile-avatar{
+    width:220px;
+    height:220px;
+    margin:0 auto 20px;
+    border-radius:50%;
+    overflow:hidden;
+    border:5px solid #5865F2;
+    box-shadow:0 0 35px rgba(88,101,242,.4);
+}
+
+.profile-avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+  .profile-name {
+    font-size: 30px;
+    font-weight: 700;
+    color: #FFFFFF;
+    letter-spacing: .5px;
+  }
+
+  .profile-title {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 1.25rem;
+  }
+
+  .profile-divider {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    margin: 1rem 0;
+  }
+
+  .profile-detail {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    font-size: 13px;
+  }
+
+  .profile-detail-label {
+    color: rgba(255,255,255,0.4);
+  }
+
+  .profile-detail-value {
+    color: #FFFFFF;
+    font-weight: 500;
+  }
+
+  .available-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #16a34a20;
+    border: 1px solid rgba(59,165,92,0.3);
+    border-radius: 10px;
+    padding: 4px 10px;
+    font-size: 12px;
+    color: #3ba55c;
+  }
+
+  .available-dot {
+    width: 6px; height: 6px;
+    background: #3ba55c;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  /* DIVIDER */
+  .section-divider {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    margin: 2.5rem 0;
+  }
+
+  /* WHAT I DO */
+  .what-i-do-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin-top: 1.5rem;
+  }
+
+  .what-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 1.5rem;
+    transition: all 0.3s;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .what-card:hover {
+    border-color: #5865F2;
+    background: rgba(88,101,242,0.08);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px rgba(88,101,242,0.15);
+  }
+
+  .what-card-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+  }
+
+  .what-card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #FFFFFF;
+    margin-bottom: 8px;
+  }
+
+  .what-card-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.65;
+  }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 0.4rem;
+  }
+
+  .section-title span { color: #5865F2; }
+
+  .section-subtitle {
+    font-size: 14px;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 1.5rem;
+  }
+
+  /* VALUES */
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 1.5rem;
+  }
+
+  .value-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 1.25rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    transition: all 0.2s;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .value-card:hover {
+    border-color: #5865F2;
+    background: rgba(88,101,242,0.08);
+    transform: translateX(6px);
+  }
+
+  .value-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .value-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #FFFFFF;
+    margin-bottom: 4px;
+  }
+
+  .value-desc {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.6;
+  }
+
+  /* QUICK STATS */
+  .quick-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 12px;
+    margin-top: 1.5rem;
+  }
+
+  .quick-stat {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 1.25rem;
+    text-align: center;
+    transition: all 0.2s;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .quick-stat:hover {
+    border-color: #5865F2;
+    background: rgba(88,101,242,0.08);
+    transform: translateY(-4px);
+  }
+
+  .quick-stat-value {
+    font-size: 26px;
+    font-weight: 700;
+    color: #5865F2;
+    margin-bottom: 4px;
+  }
+
+  .quick-stat-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* CTA BANNER */
+  .cta-banner {
+    background: linear-gradient(135deg, #1a1d3a 0%, #2a3168 50%, #4752C4 100%);
+    border: 1px solid rgba(88,101,242,0.3);
+    border-radius: 20px;
+    padding: 2.5rem;
+    text-align: center;
+    margin-top: 2.5rem;
+    animation: fadeUp 0.6s 0.3s ease both;
+    box-shadow: 0 0 40px rgba(88,101,242,0.2);
+  }
+
+  .cta-banner h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 8px;
+  }
+
+  .cta-banner p {
+    font-size: 15px;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 1.5rem;
+  }
+
+  .cta-banner-btns {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 768px) {
+    .about-hero { grid-template-columns: 1fr; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- HERO -->
+<div class="about-hero">
+  <div class="about-left">
+    <div class="about-role-badge">⚡ Full Stack Developer</div>
+    <h1>Hey, I'm <span>{{ profile.name }}</span> 👋</h1>
+    <p class="about-bio">{{ profile.bio }}</p>
+    <div class="about-btns">
+      {% if profile.github %}
+        <a href="{{ profile.github }}" class="btn" target="_blank">⬡ GitHub</a>
+      {% endif %}
+      {% if profile.linkedin %}
+        <a href="{{ profile.linkedin }}" class="btn" target="_blank">in LinkedIn</a>
+      {% endif %}
+      <a href="/contact/" class="btn primary">✉ Contact Me</a>
+    </div>
+  </div>
+
+  <div class="profile-card">
+<div class="profile-avatar">
+    {% if profile.portfolio_photo %}
+        <img src="{{ profile.portfolio_photo.url }}" alt="{{ profile.name }}">
+    {% else %}
+        👨‍💻
+    {% endif %}
+</div>
+
+<div class="profile-name">{{ profile.name }}</div>
+<div class="profile-title">Full Stack Developer</div>
+<hr class="profile-divider">
+    <div class="profile-detail">
+      <span class="profile-detail-label">📍 Location</span>
+      <span class="profile-detail-value">{{ profile.location }}</span>
+    </div>
+    <div class="profile-detail">
+      <span class="profile-detail-label">🎓 Degree</span>
+      <span class="profile-detail-value">B.Tech IT</span>
+    </div>
+    <div class="profile-detail">
+      <span class="profile-detail-label">💼 Status</span>
+      <span class="available-badge">
+        <div class="available-dot"></div>
+        Open to Work
+      </span>
+    </div>
+    <div class="profile-detail">
+      <span class="profile-detail-label">✉ Email</span>
+      <span class="profile-detail-value" style="font-size:11px;">{{ profile.email }}</span>
+    </div>
+  </div>
+</div>
+
+<!-- QUICK STATS -->
+<div class="quick-stats">
+  <div class="quick-stat">
+    <div class="quick-stat-value">3+</div>
+    <div class="quick-stat-label">Projects</div>
+  </div>
+  <div class="quick-stat">
+    <div class="quick-stat-value">10+</div>
+    <div class="quick-stat-label">Skills</div>
+  </div>
+  <div class="quick-stat">
+    <div class="quick-stat-value">2+</div>
+    <div class="quick-stat-label">Years Coding</div>
+  </div>
+  <div class="quick-stat">
+    <div class="quick-stat-value">1</div>
+    <div class="quick-stat-label">Degree</div>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- WHAT I DO -->
+<div class="section-title">What I <span>Do</span></div>
+<div class="section-subtitle">Areas I specialize in</div>
+<div class="what-i-do-grid">
+  <div class="what-card">
+    <div class="what-card-icon">🐍</div>
+    <div class="what-card-title">Backend Development</div>
+    <div class="what-card-desc">Building scalable REST APIs and web applications using Python, Django, and Django REST Framework.</div>
+  </div>
+  <div class="what-card">
+    <div class="what-card-icon">🌐</div>
+    <div class="what-card-title">Frontend Development</div>
+    <div class="what-card-desc">Creating clean and responsive UIs using HTML, CSS, JavaScript, React, and Bootstrap.</div>
+  </div>
+  <div class="what-card">
+    <div class="what-card-icon">🗄</div>
+    <div class="what-card-title">Database Design</div>
+    <div class="what-card-desc">Designing and managing relational databases using MySQL and SQLite with efficient query optimization.</div>
+  </div>
+  <div class="what-card">
+    <div class="what-card-icon">🔗</div>
+    <div class="what-card-title">REST API Development</div>
+    <div class="what-card-desc">Developing secure and well-documented REST APIs using Django REST Framework and JWT authentication.</div>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- VALUES -->
+<div class="section-title">My <span>Values</span></div>
+<div class="section-subtitle">What drives me every day</div>
+<div class="values-grid">
+  <div class="value-card">
+    <div class="value-icon">🎯</div>
+    <div>
+      <div class="value-title">Problem Solving</div>
+      <div class="value-desc">I love breaking down complex problems into simple, elegant solutions.</div>
+    </div>
+  </div>
+  <div class="value-card">
+    <div class="value-icon">📚</div>
+    <div>
+      <div class="value-title">Continuous Learning</div>
+      <div class="value-desc">Technology evolves fast — I stay curious and keep learning every day.</div>
+    </div>
+  </div>
+  <div class="value-card">
+    <div class="value-icon">✨</div>
+    <div>
+      <div class="value-title">Clean Code</div>
+      <div class="value-desc">I believe in writing readable, maintainable, and well-documented code.</div>
+    </div>
+  </div>
+  <div class="value-card">
+    <div class="value-icon">🤝</div>
+    <div>
+      <div class="value-title">Collaboration</div>
+      <div class="value-desc">Great products are built by great teams — I enjoy working and growing together.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- CTA BANNER -->
+<div class="cta-banner">
+  <h2>Let's build something amazing together! 🚀</h2>
+  <p>Open to full-time roles, freelance projects, and exciting collaborations.</p>
+  <div class="cta-banner-btns">
+    <a href="/contact/" class="btn primary">✉ Get in Touch</a>
+    <a href="/projects/" class="btn">💼 View Projects</a>
+    <a href="/skills/" class="btn">⚡ My Skills</a>
+  </div>
+</div>
+
+{% endblock %}
