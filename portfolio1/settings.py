@@ -33,7 +33,7 @@ DEBUG = False
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
-    "portfolio1.onrender.com",
+    "portfolio-r07m.onrender.com",
 ]
 
 STATIC_URL = 'static/'
