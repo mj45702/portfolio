@@ -349,8 +349,8 @@
 
   <div class="profile-card">
 <div class="profile-avatar">
-    {% if profile.portfolio_photo %}
-        <img src="{{ profile.portfolio_photo.url }}" alt="{{ profile.name }}">
+    {% load static %}
+        <img src="{% static 'images/profile.png' %}" alt="Profile">
     {% else %}
         👨‍💻
     {% endif %}
